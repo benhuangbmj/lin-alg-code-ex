@@ -2,3 +2,4 @@
 .upm
 poetry.lock
 venv
+__pycache__
