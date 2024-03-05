@@ -1,7 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def firstExample(x,y):
+def firstExample():
+  x = np.array([1,2,3])
+  y = np.array([3.25,4,4.5])
   W = [];
   for i in range(len(x)):
     W.append([1, x[i]])
