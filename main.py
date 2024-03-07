@@ -1,19 +1,37 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+from sklearn.metrics import r2_score
 
 data = pd.read_csv('realEstateAbridged.csv',sep=',', index_col=0)
 headers = data.columns.tolist()
-xVar = headers[2]
+selectedColumns = headers[3:4]
 
-X1 = np.array(pd.DataFrame(data, columns=headers[2:3]))
+X1 = np.array(pd.DataFrame(data, columns=selectedColumns))
 Y = np.array(pd.DataFrame(data, columns=[headers[6]]))
 
 X = np.insert(arr=X1, obj=0, values=1, axis=1)
 beta = np.linalg.lstsq(X, Y, rcond=None)[0]
-def f(x):
-  return beta[0] + beta[1]*x
-fig, ax = plt.subplots()
-data.plot(x=xVar, xlabel=xVar, y=headers[6], ylabel=headers[6], marker='.', linestyle='none', ax=ax, color='y')
-ax.plot([min(X1), max(X1)], [f(min(X1)), f(max(X1))])
+
+YPred = np.matmul(X, beta)
+r2 = r2_score(Y, YPred)
+print('Selected variables: ', selectedColumns)
+print('R squared: ', r2)
+
+fig, ax = plt.subplots(2,1)
+
+def plotTheLine():
+  if X1.shape[1] == 1:
+    def f(x):
+      return np.matmul(np.array([[1, x]]), beta)[0]
+    data.plot(x=selectedColumns[0], xlabel=selectedColumns[0], y=headers[6], ylabel=headers[6], marker='.', linestyle='none', ax=ax[0])
+    ax[0].plot([min(X1)[0], max(X1)[0]], [f(min(X1)[0]), f(max(X1)[0])], color='y')
+  
+def plotThePoints():
+  ax[1].scatter(np.array(range(len(Y))),Y)
+  ax[1].scatter(np.array(range(len(Y))),YPred, color='y')
+
+plotTheLine()
+plotThePoints()
+
 plt.show()
