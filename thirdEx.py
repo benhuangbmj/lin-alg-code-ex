@@ -9,7 +9,7 @@ def thirdEx():
   #get all headers
   headers = data.columns.tolist()
   #specify the columns for linear regression
-  selectedColumns = headers[2:3]
+  selectedColumns = headers[0:6]
   
   #prepare the data for regression
   X1 = pd.DataFrame(data, columns=selectedColumns).to_numpy()  
@@ -18,6 +18,8 @@ def thirdEx():
 
   #run the linear regression
   beta = np.linalg.lstsq(X, Y, rcond=None)[0]
+  D = np.array([[1,1,2,3,4,5,6]])
+  print("forcast: ", np.matmul(D, beta))
 
   #calcualte the coefficient of determination (R squared value)
   YPred = np.matmul(X, beta)
@@ -25,6 +27,7 @@ def thirdEx():
 
   #print the indicators
   print('Selected variables: ', selectedColumns)
+  print('beta: ', beta)
   print('R squared: ', r2)
 
   #prepare a canvas with two rows and one column
