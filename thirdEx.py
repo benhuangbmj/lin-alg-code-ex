@@ -31,7 +31,7 @@ def thirdEx():
     print('R squared: ', r2)
     if i == 6:
       D = np.array([[1, 2014.500, 20, 1884.6032,6,24.97398,121.54073]])
-      print("forcast: ", np.matmul(D, beta))
+      print("Forecast: ", np.matmul(D, beta))
     i = i + 1
     #prepare a canvas with two rows and one column
     '''fig, ax = plt.subplots(2,1)
